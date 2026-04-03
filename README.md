@@ -125,8 +125,5 @@ The coding subset evaluation executes model-generated Python code using `exec()`
 If you use ManyIH in your research, please cite:
 
 ```bibtex
-@article{manyih2026,
-    title={ManyIH: Benchmarking Instruction Hierarchy Resolution in Language Models},
-    year={2026}
-}
+TODO
 ```
