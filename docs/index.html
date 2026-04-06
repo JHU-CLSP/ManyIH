@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ManyIH-Bench</title>
+    <style>
+        :root {
+            --primary: #1a1a2e;
+            --accent: #e94560;
+            --bg: #fafafa;
+            --card-bg: #ffffff;
+            --text: #2d2d2d;
+            --text-secondary: #5a5a5a;
+            --border: #e0e0e0;
+            --code-bg: #f5f5f5;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            color: var(--text);
+            background: var(--bg);
+            line-height: 1.7;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        /* Header */
+        header {
+            background: var(--primary);
+            color: #fff;
+            padding: 60px 0 48px;
+            text-align: center;
+        }
+
+        header h1 {
+            font-size: 2.8rem;
+            font-weight: 700;
+            margin-bottom: 12px;
+            letter-spacing: -0.5px;
+        }
+
+        header h1 em {
+            font-style: italic;
+            color: var(--accent);
+        }
+
+        header .subtitle {
+            font-size: 1.15rem;
+            color: #b0b0c8;
+            max-width: 680px;
+            margin: 0 auto 28px;
+        }
+
+        .header-links {
+            display: flex;
+            justify-content: center;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+
+        .header-links a {
+            display: inline-block;
+            padding: 10px 22px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.95rem;
+            transition: opacity 0.2s;
+        }
+
+        .header-links a:hover {
+            opacity: 0.85;
+        }
+
+        .btn-primary {
+            background: var(--accent);
+            color: #fff;
+        }
+
+        .btn-secondary {
+            background: rgba(255,255,255,0.12);
+            color: #fff;
+            border: 1px solid rgba(255,255,255,0.25);
+        }
+
+        /* Sections */
+        section {
+            padding: 48px 0;
+        }
+
+        section + section {
+            border-top: 1px solid var(--border);
+        }
+
+        h2 {
+            font-size: 1.6rem;
+            margin-bottom: 20px;
+            color: var(--primary);
+        }
+
+        h3 {
+            font-size: 1.15rem;
+            margin: 24px 0 10px;
+            color: var(--primary);
+        }
+
+        p {
+            margin-bottom: 14px;
+            color: var(--text-secondary);
+        }
+
+        p strong {
+            color: var(--text);
+        }
+
+        /* Teaser figure */
+        .teaser-wrap {
+            margin: 24px 0;
+            text-align: center;
+        }
+
+        .teaser-wrap img {
+            max-width: 100%;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+        }
+
+        .teaser-wrap .caption {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            margin-top: 10px;
+            font-style: italic;
+        }
+
+        /* Results figures */
+        .results-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+            margin: 24px 0;
+        }
+
+        .results-grid .fig-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 16px;
+            text-align: center;
+        }
+
+        .results-grid img {
+            max-width: 100%;
+        }
+
+        .results-grid .caption {
+            font-size: 0.82rem;
+            color: var(--text-secondary);
+            margin-top: 8px;
+        }
+
+        .fig-single {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 16px;
+            text-align: center;
+            margin: 24px auto;
+            max-width: 520px;
+        }
+
+        .fig-single img {
+            max-width: 100%;
+        }
+
+        .fig-single .caption {
+            font-size: 0.82rem;
+            color: var(--text-secondary);
+            margin-top: 8px;
+        }
+
+        /* Takeaways */
+        .takeaway-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .takeaway-list li {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-left: 4px solid var(--accent);
+            border-radius: 4px;
+            padding: 14px 18px;
+            margin-bottom: 12px;
+            color: var(--text-secondary);
+        }
+
+        .takeaway-list li strong {
+            color: var(--text);
+        }
+
+        /* Table */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 16px 0;
+            font-size: 0.92rem;
+        }
+
+        th, td {
+            padding: 10px 14px;
+            text-align: left;
+            border-bottom: 1px solid var(--border);
+        }
+
+        th {
+            background: var(--code-bg);
+            font-weight: 600;
+            color: var(--primary);
+        }
+
+        td {
+            color: var(--text-secondary);
+        }
+
+        /* Stats row */
+        .stats-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: 16px;
+            margin: 20px 0;
+        }
+
+        .stat-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 18px;
+            text-align: center;
+        }
+
+        .stat-card .num {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .stat-card .label {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            margin-top: 4px;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--primary);
+            color: #b0b0c8;
+            text-align: center;
+            padding: 32px 0;
+            font-size: 0.9rem;
+        }
+
+        footer a {
+            color: #e0e0f0;
+        }
+
+        /* Responsive */
+        @media (max-width: 640px) {
+            header h1 { font-size: 2rem; }
+            .results-grid { grid-template-columns: 1fr; }
+            .stats-row { grid-template-columns: 1fr 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <div class="container">
+        <h1><em>Many</em>IH-Bench</h1>
+        <p class="subtitle">
+            A benchmark for evaluating how LLMs resolve instruction conflicts across arbitrarily many privilege levels.
+        </p>
+        <div class="header-links">
+            <a href="https://github.com/JHU-CLSP/ManyIH" class="btn-primary">Code &amp; Evaluation</a>
+            <a href="https://huggingface.co/datasets/jackzhang/ManyIH-Bench" class="btn-secondary">Dataset</a>
+            <a href="#" class="btn-secondary">Paper (coming soon)</a>
+        </div>
+    </div>
+</header>
+
+<!-- Section 1: Defining Many-Tier Instruction Hierarchy -->
+<section id="manyih">
+    <div class="container">
+        <h2>Defining Many-Tier Instruction Hierarchy</h2>
+
+        <p>
+            LLM agents receive instructions from many sources&mdash;system messages, user prompts, tool outputs, skill files, and other agents&mdash;each carrying different levels of trust and authority.
+            The <strong>Instruction Hierarchy</strong> (IH) formalizes how models should resolve conflicts among instructions of different privilege levels.
+        </p>
+
+        <p>
+            Current IH implementations assume a <strong>fixed, small</strong> set of privilege levels (typically fewer than five) defined by rigid role labels (e.g., <code>system &gt; user</code>). Because models learn to operate over these role labels fixed during training, they are limited to a small number of privilege tiers&mdash;creating a <strong>fixed- and few-tier bottleneck</strong>.
+        </p>
+
+        <p>
+            This is insufficient for real-world agentic settings. For instance, a coding agent may receive multi-level guidelines from system prompts, developer configs, skill files, user messages, and tool outputs with varying trust levels. In group chats, participants may hold heterogeneous privileges (admins, moderators, members), creating multiple tiers within what is traditionally a single "user" role.
+        </p>
+
+        <div class="teaser-wrap">
+            <img src="assets/teaser.png" alt="Comparison of existing IH (fixed tiers) vs Many-Tier IH (arbitrary privilege levels)">
+            <div class="caption">Existing IH assigns the same "Medium" privilege to three different sources, leaving the conflict unresolvable. ManyIH assigns each instruction a distinct privilege value via ordinal or scalar interfaces, enabling fine-grained resolution.</div>
+        </div>
+
+        <p>
+            <strong>Many-Tier Instruction Hierarchy (ManyIH)</strong> resolves this bottleneck. Rather than deriving privilege from role labels, ManyIH dynamically assigns each instruction a privilege value via a dedicated <strong>Privilege Prompt Interface</strong> (PPI) and resolves conflicts by comparing these values. Two PPI variants are proposed:
+        </p>
+        <ul style="margin: 0 0 14px 24px; color: var(--text-secondary);">
+            <li><strong>Ordinal</strong>: instructions are tagged with ordinal values (e.g., <code>[[Privilege 2]]</code>), where lower number = higher privilege.</li>
+            <li><strong>Scalar</strong>: instructions are tagged with scalar values (e.g., <code>[[z=82]]</code>), where larger value = higher privilege.</li>
+        </ul>
+        <p>
+            Conflicts are resolved based solely on the <strong>relative ordering</strong> of privilege values, not their absolute magnitudes. This decouples privilege semantics from message role labels, enabling models to reason over arbitrarily many privilege levels specified at inference time.
+        </p>
+    </div>
+</section>
+
+<!-- Section 2: Main Results -->
+<section id="results">
+    <div class="container">
+        <h2>Main Results on ManyIH-Bench</h2>
+
+        <p>
+            Ten frontier proprietary and open-source models were evaluated on ManyIH-Bench with temperature 0 and reasoning effort set to high.
+            <strong>Even the best model (Gemini 3.1 Pro) achieves only 42.7% accuracy</strong>, revealing that many-tier instruction conflict resolution is a challenging, unsolved capability.
+        </p>
+
+        <div class="results-grid">
+            <div class="fig-card">
+                <img src="assets/main_comparison_overall.png" alt="Overall accuracy on ManyIH-Bench">
+                <div class="caption">Overall accuracy (%). Error bars: bootstrap 95% CIs.</div>
+            </div>
+            <div class="fig-card">
+                <img src="assets/main_comparison_by_subset.png" alt="Accuracy by subset (Coding and IF)">
+                <div class="caption">Accuracy by subset (Coding in teal, IF in orange).</div>
+            </div>
+        </div>
+
+        <p>
+            Notably, models that excel at standard two-tier IH do not necessarily generalize to the many-tier setting.
+            For example, GPT 5.4 reports &gt;99% accuracy on two-tier IH evaluations such as system prompt extraction, yet achieves only 39.4% on ManyIH-Bench.
+            Human validation confirms a ceiling of at least ~80% accuracy is attainable, indicating significant room for improvement.
+        </p>
+
+        <h3>Scaling Instruction Hierarchy Tiers</h3>
+        <p>
+            To isolate the effect of IH complexity from instruction following difficulty, three Coding subset variants were created with 6, 8, and 12 privilege tiers while holding the number of style groups and winning instructions fixed.
+        </p>
+
+        <div class="fig-single">
+            <img src="assets/difficulty_lines.png" alt="Accuracy vs. number of IH tiers">
+            <div class="caption">Accuracy consistently degrades as the number of IH tiers increases. 11 out of 12 model&ndash;transition pairs show strict decrease, with drops from 6.8% to 24.1%.</div>
+        </div>
+
+        <h3>Correctness vs. Style on Coding Subset</h3>
+        <p>
+            On the Coding subset, style compliance is the primary bottleneck for overall accuracy. All frontier models maintain high functional correctness (&gt;86% test accuracy), but style accuracy&mdash;which requires reasoning over ManyIH privilege levels&mdash;is much lower.
+        </p>
+
+        <table>
+            <thead>
+                <tr><th>Model</th><th>Accuracy</th><th>Test Acc</th><th>Style Acc</th></tr>
+            </thead>
+            <tbody>
+                <tr><td>GPT 5.4</td><td><strong>60.9%</strong></td><td>89.7%</td><td><strong>67.9%</strong></td></tr>
+                <tr><td>Gemini 3.1 Pro</td><td>59.0%</td><td>91.3%</td><td>65.1%</td></tr>
+                <tr><td>Grok 4.20</td><td>54.1%</td><td>86.2%</td><td>63.0%</td></tr>
+                <tr><td>Opus 4.6</td><td>51.3%</td><td><strong>92.5%</strong></td><td>56.7%</td></tr>
+                <tr><td>Kimi K2.5</td><td>42.4%</td><td>87.4%</td><td>49.4%</td></tr>
+                <tr><td>Sonnet 4.6</td><td>39.1%</td><td>91.6%</td><td>42.4%</td></tr>
+                <tr><td>Qwen3.5-397B</td><td>41.0%</td><td>87.4%</td><td>48.2%</td></tr>
+                <tr><td>Qwen3.5-122B</td><td>19.7%</td><td>65.3%</td><td>31.6%</td></tr>
+                <tr><td>Qwen3.5-9B</td><td>8.4%</td><td>71.7%</td><td>13.3%</td></tr>
+                <tr><td>Qwen3.5-4B</td><td>3.5%</td><td>61.8%</td><td>7.7%</td></tr>
+            </tbody>
+        </table>
+    </div>
+</section>
+
+<!-- Section 3: Key Takeaways -->
+<section id="takeaways">
+    <div class="container">
+        <h2>Key Takeaways</h2>
+
+        <ul class="takeaway-list">
+            <li>
+                <strong>Many-tier IH is an unsolved challenge.</strong>
+                Even the best frontier model achieves only 42.7% accuracy on ManyIH-Bench, despite reporting &gt;99% on standard two-tier IH evaluations. This gap suggests that many-tier instruction conflict resolution is a qualitatively distinct capability from the fixed-tier IH that current models are trained on.
+            </li>
+            <li>
+                <strong>Performance degrades as privilege tiers increase.</strong>
+                Across 12 model&ndash;transition pairs on the Coding subset, 11 show strict accuracy decrease as tiers scale from 6 to 12, with drops ranging from 6.8% to 24.1%. Current models do not generalize well to progressively many privilege tiers.
+            </li>
+            <li>
+                <strong>Models are sensitive to how privilege is represented.</strong>
+                Switching from ordinal to scalar privilege format&mdash;which encodes the same relative ordering&mdash;causes accuracy drops of up to 8.4% (GPT 5.4) and 8.0% (Opus 4.6). Small prompt changes on privilege representation can meaningfully affect reasoning over many-tier instruction hierarchy.
+            </li>
+            <li>
+                <strong>Models are sensitive to exact privilege values.</strong>
+                Under the scalar format, perturbing privilege values by a small random integer (&plusmn;3) while preserving relative ordering flips 8&ndash;17% of per-sample outcomes. This shows models attend to absolute magnitudes despite only relative ordering being semantically meaningful.
+            </li>
+            <li>
+                <strong>Style compliance, not functional correctness, is the bottleneck.</strong>
+                On the Coding subset, all frontier models achieve &gt;86% test accuracy, but style accuracy (which requires ManyIH reasoning) is much lower. This confirms that the benchmark successfully isolates many-tier instruction hierarchy difficulty from general task difficulty.
+            </li>
+        </ul>
+    </div>
+</section>
+
+<!-- Section 4: About the Benchmark -->
+<section id="about">
+    <div class="container">
+        <h2>About ManyIH-Bench</h2>
+
+        <p>
+            ManyIH-Bench is the first benchmark designed to evaluate instruction conflict resolution under arbitrarily many privilege levels.
+            It comprises <strong>853 agentic tasks</strong> with up to <strong>12 distinct privilege levels</strong> per sample, compared to 2&ndash;3 levels in prior work.
+        </p>
+
+        <div class="stats-row">
+            <div class="stat-card"><div class="num">853</div><div class="label">Total samples</div></div>
+            <div class="stat-card"><div class="num">12</div><div class="label">Max privilege levels</div></div>
+            <div class="stat-card"><div class="num">46</div><div class="label">Real-world agents</div></div>
+            <div class="stat-card"><div class="num">2</div><div class="label">Subsets</div></div>
+        </div>
+
+        <h3>Coding Subset (427 samples)</h3>
+        <p>
+            Pairs MBPP coding problems with conflicting style instructions (e.g., naming conventions, indentation, operator spacing) inspired by PEP 8, simulating realistic system constraints from many sources. Each sample contains 12 style instructions across 4 style groups with up to 12 privilege levels, averaging 9.8 conflicts and 6 winning style instructions. The model must produce code that is both functionally correct and adheres to the highest-privilege style in each conflict group. Evaluation is fully programmatic via unit tests and code-based style checkers.
+        </p>
+
+        <h3>Instruction-Following Subset (426 samples)</h3>
+        <p>
+            Draws from agentic instruction-following scenarios spanning 46 domains in the AgentIF dataset, augmented with privilege-annotated conflicting constraints via a multi-step LLM pipeline verified by humans. Each sample contains an average of 12.8 active and 6.6 suppressed (lower-privilege) constraints across 1&ndash;4 conflict groups with up to 7 privilege levels. Evaluation uses code checkers and LLM judges on individual constraints.
+        </p>
+
+        <h3>Design Principles</h3>
+        <ul style="margin: 0 0 14px 24px; color: var(--text-secondary);">
+            <li><strong>Non-adversarial prompts:</strong> Instruction conflicts are straightforward, isolating multi-tier resolution capability from robustness against attacks.</li>
+            <li><strong>Granular, constraint-level evaluation:</strong> Each constraint is verified independently by deterministic code checkers or LLM judges.</li>
+            <li><strong>Controlled difficulty scaling:</strong> The number of privilege tiers and conflicts can be varied independently from task difficulty.</li>
+            <li><strong>Realistic agentic settings:</strong> Tasks are grounded in real-world agentic scenarios across 46 agents.</li>
+        </ul>
+
+        <h3>Evaluation Protocol</h3>
+        <p>
+            A model passes a sample if and only if <strong>all active (winning) instructions</strong> are satisfied, plus all unit tests for the Coding subset. This strict all-or-nothing criterion ensures that partial adherence to ManyIH&mdash;such as satisfying only non-conflicting instructions while ignoring privilege-based resolution&mdash;is not rewarded.
+        </p>
+    </div>
+</section>
+
+<footer>
+    <div class="container">
+        <p>ManyIH-Bench &middot; <a href="https://github.com/JHU-CLSP/ManyIH">GitHub</a> &middot; <a href="https://huggingface.co/datasets/jackzhang/ManyIH-Bench">HuggingFace</a></p>
+    </div>
+</footer>
+
+</body>
+</html>
