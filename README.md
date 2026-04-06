@@ -7,21 +7,47 @@ When instructions at different privilege levels conflict, models must follow the
 - **Coding** (427 samples): Code generation tasks with conflicting style instructions at different privilege levels
 - **Instruction-Following** (426 samples): Agentic scenarios with privilege-annotated constraints that conflict
 
-## Installation
+## Installation and Setup
+
+### Install the package
 
 ```bash
-pip install manyih               # Core (OpenRouter + vLLM)
-pip install manyih[bedrock]      # + AWS Bedrock support
+pip install manyih               # Core: OpenRouter + vLLM backends
+pip install manyih[bedrock]      # + AWS Bedrock support (installs boto3)
 pip install manyih[all]          # All backends
 ```
 
-Or install from source:
+The core package supports querying models via [OpenRouter](https://openrouter.ai/) (cloud API aggregator) and local [vLLM](https://docs.vllm.ai/) servers. The `bedrock` extra adds support for calling models through AWS Bedrock.
+
+To install from source instead:
 
 ```bash
 git clone <repo-url>
 cd manyih
-pip install -e .
+pip install -e .                 # or pip install -e ".[all]"
 ```
+
+### API keys
+
+Set the appropriate environment variables for whichever backend(s) you plan to use:
+
+**OpenRouter** — required for cloud models via OpenRouter (e.g., `openai/gpt-5.4`):
+
+```bash
+export OPENROUTER_API_KEY='your-key'
+```
+
+**AWS Bedrock** — required for `bedrock:` model strings (e.g., `bedrock:sonnet-4.6`). Configure standard AWS credentials so that `boto3` can authenticate:
+
+```bash
+export AWS_ACCESS_KEY_ID='your-access-key'
+export AWS_SECRET_ACCESS_KEY='your-secret-key'
+export AWS_DEFAULT_REGION='us-east-1'       # or your preferred region
+```
+
+Alternatively, configure credentials via `aws configure` or an IAM instance profile. See the [boto3 credentials docs](https://boto3.amazonaws.com/v1/documentation/api/latest/guide/credentials.html) for all options.
+
+**vLLM** — no API key needed. Just point to your running server using the `vllm:host:port:model` format.
 
 ## Quick Start
 
@@ -30,7 +56,7 @@ pip install -e .
 ```bash
 # OpenRouter
 export OPENROUTER_API_KEY='your-key'
-python -m manyih evaluate --subset coding --model anthropic/claude-3.5-sonnet
+python -m manyih evaluate --subset coding --model openai/gpt-5.4
 
 # AWS Bedrock
 python -m manyih evaluate --subset coding --model bedrock:sonnet-4.6
@@ -44,7 +70,7 @@ python -m manyih evaluate --subset coding --model vllm:localhost:8000:meta-llama
 ```bash
 # Predict with one model, judge with another
 python -m manyih evaluate --subset if \
-    --model anthropic/claude-3.5-sonnet \
+    --model openai/gpt-5.4 \
     --judge-model bedrock:sonnet-4.6
 
 # Use the same model for both
@@ -68,7 +94,7 @@ python -m manyih view --subset if --output if_viewer.html
 
 | Format | Backend | Example |
 |--------|---------|---------|
-| `<model_name>` | OpenRouter | `anthropic/claude-3.5-sonnet` |
+| `<model_name>` | OpenRouter | `openai/gpt-5.4` |
 | `bedrock:<alias>` | AWS Bedrock | `bedrock:sonnet-4.6`, `bedrock:opus-4.6` |
 | `bedrock:<region>:<model_id>` | AWS Bedrock (full) | `bedrock:us-east-1:us.anthropic.claude-opus-4-6-v1` |
 | `vllm:<host>:<port>:<model>` | Local vLLM | `vllm:localhost:8000:Qwen/Qwen3.5-32B` |

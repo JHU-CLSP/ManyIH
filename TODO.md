@@ -9,6 +9,11 @@
 - [ ] Test all three backends end-to-end (OpenRouter, Bedrock, vLLM) with a real model
 - [ ] Consider git-lfs for the 20 MB instruction_following.json if hosting on GitHub
 
+## Dataset & Website
+
+- [ ] Release dataset on Hugging Face (upload splits, write dataset card with loading example)
+- [ ] Build benchmark website (leaderboard, task descriptions, submission instructions)
+
 ## Nice to have
 
 - [ ] Add a few smoke tests (test imports, test data loading, test parse_model_string)
