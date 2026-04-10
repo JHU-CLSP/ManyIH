@@ -17,22 +17,12 @@ ManyIH-Bench comprises two subsets:
 
 ## Installation and Setup
 
-### Install the package
-
 ```bash
-pip install manyih               # Core: OpenRouter + vLLM backends
-pip install manyih[bedrock]      # + AWS Bedrock support (installs boto3)
-pip install manyih[all]          # All backends
-```
-
-The core package supports querying models via [OpenRouter](https://openrouter.ai/) (cloud API aggregator) and local [vLLM](https://docs.vllm.ai/) servers. The `bedrock` extra adds support for calling models through AWS Bedrock.
-
-To install from source instead:
-
-```bash
-git clone <repo-url>
-cd manyih
-pip install -e .                 # or pip install -e ".[all]"
+git clone https://github.com/JHU-CLSP/ManyIH.git
+cd ManyIH
+pip install -e .                 # Core: OpenRouter + vLLM backends
+pip install -e ".[bedrock]"      # + AWS Bedrock support (installs boto3)
+pip install -e ".[all]"          # All backends
 ```
 
 ### API keys
