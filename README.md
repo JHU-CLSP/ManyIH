@@ -3,6 +3,10 @@
 **Benchmark for evaluating LLM instruction conflict resolution across arbitrarily many privilege levels.**
 
 <p align="center">
+  📄 <a href="https://arxiv.org/abs/2604.09443">Paper</a> | 🏠 <a href="https://jhu-clsp.github.io/ManyIH">Homepage</a> | 🤗 <a href="https://huggingface.co/datasets/jhu-clsp/ManyIH-Bench">HF Dataset</a>
+</p>
+
+<p align="center">
   <img src="docs/assets/teaser.png" alt="ManyIH overview" width="700">
 </p>
 
