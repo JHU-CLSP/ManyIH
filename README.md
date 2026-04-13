@@ -154,5 +154,13 @@ We would also like to acknowledge [**StyleMBPP**](https://arxiv.org/abs/2505.169
 If you use ManyIH in your research, please cite:
 
 ```bibtex
-TODO
+@misc{zhang2026manytierinstructionhierarchyllm,
+      title={Many-Tier Instruction Hierarchy in LLM Agents}, 
+      author={Jingyu Zhang and Tianjian Li and William Jurayj and Hongyuan Zhan and Benjamin Van Durme and Daniel Khashabi},
+      year={2026},
+      eprint={2604.09443},
+      archivePrefix={arXiv},
+      primaryClass={cs.CL},
+      url={https://arxiv.org/abs/2604.09443}, 
+}
 ```
